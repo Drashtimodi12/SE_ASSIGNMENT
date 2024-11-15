@@ -1,34 +1,38 @@
-// File Handling in C:- WAP to create a file, write a string into it, close the file,
-// then open the file again to read and display its contents.
+// File Handling in C:- WAP to create a file, write a string into it, close the file, then open the file again to read and display its contents.
 #include <stdio.h>
 int main()
 {
-    FILE *file;
-    char str[] = "This is a string written to the file.";
-    char buffer[100];
+    FILE *filePointer;
+    const char *fileName = "FileCreate.txt";
+    const char *text = "Hello, this is a test string.";
+    char str[100];
 
-    file = fopen("C:\\Tops_Work\\C Program\\Assignment\\String\\File.txt", "w"); 
-    if (file == NULL)
+    filePointer = fopen(fileName, "w");
+    
+    if (filePointer == NULL) 
     {
-        printf("Error opening the file for writing.\n");
-        return 1; 
+        printf("Error: Could not open file %s for writing.\n", fileName);
+        return 1;
     }
 
-    fprintf(file, "%s", str);
+    fprintf(filePointer, "%s", text);
 
-    fclose(file);
+    fclose(filePointer);
 
-    file = fopen("C:\\Tops_Work\\C Program\\Assignment\\String\\File.txt", "r"); 
-    if (file == NULL)
+    printf("File created and string written successfully.\n");
+
+
+    filePointer = fopen(fileName, "r"); //reopen
+
+    if (filePointer == NULL) 
     {
-        printf("Error opening the file for reading.\n");
-        return 1; 
+        printf("Error: Could not open file %s for reading.\n", fileName);
+        return 1;
     }
-
-    printf("Contents of the file: ");
-    fgets(buffer, sizeof(buffer), file); 
-
-    printf("%s\n", buffer);
-
-    fclose(file);
+    printf("File found and data are:\n");
+    while (fgets(str, sizeof(str), filePointer) != NULL) 
+    {
+        printf("%s", str);
+    }
+    fclose(filePointer);
 }
